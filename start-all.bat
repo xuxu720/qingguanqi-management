@@ -1,56 +1,52 @@
 @echo off
-chcp 65001 >nul
 
 echo ============================================
-echo   清管器作业管理系统 - 一键启动
+echo   QingGuanQi Management System - Start All
 echo ============================================
 echo.
-echo   后端:  http://localhost:8080
-echo   文档:  http://localhost:8080/doc.html
-echo   前端:  http://localhost:5173
+echo   Backend:   http://localhost:8080
+echo   API Doc:   http://localhost:8080/doc.html
+echo   Frontend:  http://localhost:5173
 echo.
-echo   将在两个独立窗口中分别启动前后端
 echo ============================================
 echo.
 
-REM ====== 检查 MySQL ======
+echo [1/3] Checking MySQL service...
 sc query MySQL80 >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [警告] MySQL80 服务未运行，正在启动...
+    echo [WARN] MySQL80 not running, starting...
     net start MySQL80 >nul 2>&1
     if %errorlevel% neq 0 (
-        echo [错误] 无法启动 MySQL，请手动启动后重试
+        echo [ERROR] Cannot start MySQL, please start manually
         pause
         exit /b 1
     )
-    echo [OK] MySQL 已启动
+    echo [OK] MySQL started
 ) else (
-    echo [OK] MySQL 已在运行
+    echo [OK] MySQL is running
 )
 
 echo.
-echo [启动] 正在启动后端服务...
-start "清管器-后端" /D "%~dp0" cmd /c "%~dp0start-backend.bat"
+echo [2/3] Starting backend service...
+start "Backend" /D "%~dp0" cmd /c "%~dp0start-backend.bat"
 
-REM 等待后端启动
-echo [等待] 等待后端服务启动（约 20 秒）...
+echo [WAIT] Waiting 20s for backend to start...
 timeout /t 8 /nobreak >nul
-echo [等待] 继续等待...
 timeout /t 12 /nobreak >nul
 
 echo.
-echo [启动] 正在启动前端服务...
-start "清管器-前端" /D "%~dp0" cmd /c "%~dp0start-frontend.bat"
+echo [3/3] Starting frontend service...
+start "Frontend" /D "%~dp0" cmd /c "%~dp0start-frontend.bat"
 
 echo.
 echo ============================================
-echo   启动完成！
+echo   All services started!
 echo.
-echo   前端:  http://localhost:5173
-echo   文档:  http://localhost:8080/doc.html
+echo   Frontend:  http://localhost:5173
+echo   API Doc:   http://localhost:8080/doc.html
 echo.
-echo   关闭此窗口不会影响服务运行
-echo   要停止服务，请关闭后端/前端的命令窗口
+echo   Close this window to keep services running.
+echo   To stop, close the backend/frontend windows.
 echo ============================================
 echo.
 
