@@ -1,0 +1,24 @@
+package com.qingguanqi.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@TableName("message")
+public class Message {
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    private Long conversationId;
+    private String role;
+    private String content;
+    private String intent;
+    private Long operationId;
+    private String metadataJson;
+
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+}

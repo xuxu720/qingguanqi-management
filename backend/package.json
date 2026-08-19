@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/sortablejs": "^1.15.9",
+    "echarts": "^6.0.0",
+    "sortablejs": "^1.15.7",
+    "vue-echarts": "^8.0.1"
+  }
+}
